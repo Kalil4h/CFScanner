@@ -213,9 +213,9 @@ function fncCheckIPList {
 							timeMil=$($timeoutCommand 2 curl -x "socks5://127.0.0.1:3$port" -s -w "TIME: %{time_total}\n" -X POST --data "@$uploadFile" https://speed.cloudflare.com/__up --output /dev/null | grep "TIME" | tail -n 1 | awk '{print $2}' | xargs -I {} echo "{} * 1000 /1" | bc )
 						fi
 						avgTime=$(( avgTime+timeMil ))
-						avgStr="$avgStr $timeMil"
+						avgStr="$timeMil"
 					done
-					realTime=$(( avgTime/tryCount ))
+					realTime=$(( avgTime ))
 					# shellcheck disable=SC2009
 					pid=$(ps aux | grep config.json."$ip" | grep -v grep | awk '{ print $2 }')
 					if [[ "$pid" ]]
